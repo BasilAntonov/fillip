@@ -1,0 +1,95 @@
+body {
+    display: flex;
+    flex-direction: column;
+    height: 95vh;
+}
+
+section {
+    flex: 1;
+    display: flex;
+}
+
+article {
+    flex: 1;
+}
+
+footer {
+    align-self: flex-end;
+}
+
+button {
+    background-color: #e7e7e7;
+    color: black;
+    padding: 4px;
+    border-radius: 8px;
+    border: 2px solid #e7e7e7;
+    transition-duration: 0.4s;
+}
+
+button:hover {
+    background-color: white;
+}
+
+.btn-menu {
+    margin: 2px;
+}
+
+#menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#menu>button {
+    margin: 2px;
+    width: 90%;
+}
+
+#data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#data>div {
+    display: flex;
+    width: 90%;
+}
+
+#data>div>div {
+    flex: 1;
+}
+
+#data>div>button {
+    align-self: flex-end;
+}
+
+#form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#form>input {
+    margin: 2px;
+}
+
+nav {
+    width: 100%;
+    align-self: flex-start;
+    display: flex;
+}
+
+nav>button {
+    flex: 1;
+    background-color: white;
+    color: black;
+    border-radius: 0px;
+    border: none;
+}
+
+nav>button:hover {
+    background-color: black;
+    color: white;
+}
