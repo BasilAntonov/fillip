@@ -1,3 +1,9 @@
 /build
 /node_modules
 /package-lock.json
+dir/patterns.json
+dir/patterns/newfile.txt
+dir/patterns.json
+dir/patterns/newfile.txt
+producer/__pycache__/genaudio.cpython-310.pyc
+producer/__pycache__/server.cpython-310.pyc

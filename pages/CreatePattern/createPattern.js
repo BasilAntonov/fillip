@@ -1,10 +1,10 @@
 document.getElementById('out').onclick = (e) => {
     const obj = {
-        'p1': document.getElementById('p1').value,
-        'p2': document.getElementById('p2').value,
-        'p3': document.getElementById('p3').value,
-        'p4': document.getElementById('p4').value,
-        'p5': document.getElementById('p5').value
+        'time': document.getElementById('p1').value,
+        'duty_cycle': document.getElementById('p2').value,
+        'number_pulses': document.getElementById('p3').value,
+        'interval': document.getElementById('p4').value,
+        'number': document.getElementById('p5').value
     }
 
     fetch('http://127.0.0.1:5000/pattern_create', {

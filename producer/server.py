@@ -1,8 +1,7 @@
-from flask import Flask, jsonify
-# from flask_restful import Resource, Api
-from flask import request
-
 import json
+import genaudio as gen
+from flask import Flask, jsonify, request
+from scipy.io.wavfile import write
 
 app = Flask(__name__)
 
@@ -30,20 +29,13 @@ def list_mono_file():
 def pattern_create():
     if not request.json:
         abort(400)
-    # TODO
-    pattern = {
-        'name': 'rtt',
-        'p1': request.json['p1'],
-        'p2': request.json['p2'],
-        'p3': request.json['p3'],
-        'p4': request.json['p4'],
-        'p5': request.json['p5'],
-    }
 
     with open('./dir/patterns.json') as f:
-        obj = json.load(f)
+        obj: list = json.load(f)
 
     flag = True
+    pattern: dict = request.get_json()
+    gen.gen_pattern_name(pattern)
 
     for el in obj:
         if (el == pattern):
@@ -54,10 +46,8 @@ def pattern_create():
         with open('./dir/patterns.json', 'w') as f:
             obj.append(pattern)
             f.write(json.dumps(obj))
-        
-        my_file = open("./dir/patterns/newfile.txt", "w+")
-        my_file.write(json.dumps(pattern))
-        my_file.close()
+        data_file = gen.gen_pattern(pattern)
+        write('./dir/patterns/' + pattern['name'] + '.wav', gen.SAMPLERATE, data_file)
 
     return jsonify({'res': flag})
 
