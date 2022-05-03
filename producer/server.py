@@ -1,7 +1,7 @@
 import json
 import genaudio as gen
 from flask import Flask, jsonify, request
-from scipy.io.wavfile import write
+from scipy.io.wavfile import write, read
 
 app = Flask(__name__)
 
@@ -47,19 +47,36 @@ def pattern_create():
             obj.append(pattern)
             f.write(json.dumps(obj))
         data_file = gen.gen_pattern(pattern)
-        write('./dir/patterns/' + pattern['name'] + '.wav', gen.SAMPLERATE, data_file)
+        write('./dir/patterns/' +
+              pattern['name'] + '.wav', gen.SAMPLERATE, data_file)
 
     return jsonify({'res': flag})
 
 
 @app.route('/mono_create', methods=['POST'])
 def mono_create():
-    return ""
+    if not request.json:
+        abort(400)
+
+    data: dict = request.get_json()
+
+    patterns = []
+    for el in data['patterns']:
+        _, file_bin = read('./dir/patterns/' + el + '.wav')
+        patterns.append(file_bin)
+
+    data_file = gen.gen_mono(patterns)
+    write('./dir/mono_files/' + data['name'] +
+          '.wav', gen.SAMPLERATE, data_file)
+
+    return jsonify({'res': True, 'file_name': data['name']})
 
 
 @app.route('/file_create', methods=['POST'])
 def file_create():
-    return ""
+    if not request.json:
+        abort(400)
+    return json.dumps(request.get_json())
 
 
 if __name__ == '__main__':
