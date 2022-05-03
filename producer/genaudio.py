@@ -15,15 +15,15 @@ def gen_pattern(data):
     omega = float(data['duty_cycle'])
     tau = np.full(int(SAMPLERATE * float(data['interval'])), 0, dtype=TYPE)
 
-    T_sample = SAMPLERATE * float(data['time'])
-    t = np.full(int(T_sample * omega), AMPLITUDE, dtype=TYPE)
-    T_interval = np.full(int(T_sample * (1 - omega)), 0, dtype=TYPE)
-    T = np.concatenate((t, T_interval))
+    pulse = SAMPLERATE * float(data['time'])
+    t1 = np.full(int(pulse * omega), AMPLITUDE, dtype=TYPE)
+    interval = np.full(int(pulse * (1 - omega)), 0, dtype=TYPE)
+    t = np.concatenate((t1, interval))
 
     for i in range(int(data['number_pulses'])):
-        T = np.concatenate((T, T))
+        t = np.concatenate((t, t))
 
-    answer = np.concatenate((T, tau))
+    answer = np.concatenate((t, tau))
     for i in range(int(data['number'])):
         answer = np.concatenate((answer, answer))
 
@@ -38,4 +38,14 @@ def gen_mono(patterns):
 
 
 def gen_file(files):
-    pass
+    answer = []
+    for i in range(len(files)//2):
+        data = np.hstack((files[2*i], files[2*i+1]))
+        answer.append(data)
+
+    if len(files) % 2 == 1:
+        empty = np.full(files[-1].shape[0], 0, dtype=TYPE)
+        data = np.hstack((files[-1], empty))
+        answer.append(data)
+
+    return answer

@@ -1,3 +1,4 @@
+import os
 import json
 import genaudio as gen
 from flask import Flask, jsonify, request
@@ -59,8 +60,8 @@ def mono_create():
         abort(400)
 
     data: dict = request.get_json()
-
     patterns = []
+
     for el in data['patterns']:
         _, file_bin = read('./dir/patterns/' + el + '.wav')
         patterns.append(file_bin)
@@ -76,7 +77,26 @@ def mono_create():
 def file_create():
     if not request.json:
         abort(400)
-    return json.dumps(request.get_json())
+
+    data: dict = request.get_json()
+    files = []
+
+    for el in data['files']:
+        _, file_bin = read('./dir/mono_files/' + el + '.wav')
+        files.append(file_bin)
+
+    path = os.getcwd()
+    os.chdir(r'dir/file')
+    os.mkdir(data['folder'])
+    os.chdir(data['folder'])
+
+    files = gen.gen_file(files)
+    for index, value in enumerate(files):
+        write('./' + data['folder'] + '_' +
+              str(index) + '.wav', gen.SAMPLERATE, value)
+
+    os.chdir(path)
+    return jsonify({'res': True})
 
 
 if __name__ == '__main__':
