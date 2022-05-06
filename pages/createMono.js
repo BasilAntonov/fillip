@@ -4,17 +4,17 @@ document.getElementById('mono').onclick = e => {
 }
 
 function click_mono(e) {
-    const obj = { data: [] };
+    const obj = { patterns: [] };
     document.getElementById('form').childNodes.forEach(currentValue => {
         if (currentValue.childNodes[0] instanceof HTMLLabelElement) {
             const el = currentValue.childNodes[1];
             if (el.type == 'text') {
                 obj.name = el.value;
             } else if (el.type == 'radio' && el.checked) {
-                obj.file_type = el.value;
+                obj.save_type = el.value;
             }
         } else {
-            obj.data.push(currentValue.childNodes[0].innerHTML);
+            obj.patterns.push(currentValue.childNodes[0].innerHTML);
         }
     });
 
@@ -61,7 +61,7 @@ function init_mono() {
             for (let i = 0; i < res.length; i++) {
                 let el = document.createElement('button');
                 el.onclick = click;
-                el.innerHTML = res[i].name;
+                el.innerHTML = res[i];
                 menu.append(el);
             }
         });
@@ -70,8 +70,8 @@ function init_mono() {
     form.id = 'form';
     form.append(
         create_input('name', 'name'),
-        create_input_radio('file_type', 'pattern', 'pattern'),
-        create_input_radio('file_type', 'mono', 'mono')
+        create_input_radio('save_type', 'pattern', 'pattern'),
+        create_input_radio('save_type', 'mono', 'mono')
     );
 
     main.append(menu, form);

@@ -14,9 +14,11 @@ def index():
 
 @app.route('/pattern_get_list', methods=['GET'])
 def list_pattern():
-    with open('./dir/patterns.json') as f:
-        res = json.load(f)
-    return jsonify(res)
+    path = os.getcwd()
+    os.chdir(r'dir/patterns')
+    answer: list = os.listdir()
+    os.chdir(path)
+    return jsonify(answer)
 
 
 @app.route('/mono_get_list', methods=['GET'])
@@ -60,17 +62,33 @@ def mono_create():
         abort(400)
 
     data: dict = request.get_json()
-    patterns = []
+    name: str = data['name'] + '.wav'
 
+    path = os.getcwd()
+    os.chdir(r'dir/mono_files')
+
+    content: list = os.listdir()
+    if name in content:
+        os.chdir(path)
+        return jsonify({'res': False, 'file_name': name})
+
+
+    os.chdir(path)
+    os.chdir(r'dir/patterns')
+    patterns = []
     for el in data['patterns']:
-        _, file_bin = read('./dir/patterns/' + el + '.wav')
+        _, file_bin = read(el)
         patterns.append(file_bin)
 
     data_file = gen.gen_mono(patterns)
-    write('./dir/mono_files/' + data['name'] +
-          '.wav', gen.SAMPLERATE, data_file)
 
-    return jsonify({'res': True, 'file_name': data['name']})
+    if data['save_type'] == 'mono':
+        os.chdir(path)
+        os.chdir(r'dir/mono_files')
+
+    write(name, gen.SAMPLERATE, data_file)
+    os.chdir(path)
+    return jsonify({'res': True, 'name': name, 'type': data['save_type']})
 
 
 @app.route('/file_create', methods=['POST'])
