@@ -5,12 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" type="text/css" href="./style.css">
     <script defer src="./renderer.js"></script>
-    <script defer src="./index.js"></script>
+    <script defer src="./pages/createPattern.js"></script>
+    <script defer src="./pages/createMono.js"></script>
+    <script defer src="./pages/createFile.js"></script>
+    <script defer src="./pages/home.js"></script>
     <title>fillip</title>
   </head>
   <body>
     <header>Fillip</header>
-    <nav id="nav"></nav>
-    <footer>Дипломная работа.<br>Автор: Антонов Василий</footer>
+    <nav>
+      <button id="home">Главная страница</button>
+      <button id="pattern">Создание паттерна</button>
+      <button id="mono">Создание моно файла</button>
+      <button id="file">Создание файлов</button>
+    </nav>
+    <section id="main"></section>
+    <footer id="bottom"></footer>
   </body>
 </html>
