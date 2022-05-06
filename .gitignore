@@ -1,8 +1,7 @@
 /build
 /node_modules
 /package-lock.json
-dir/patterns.json
 dir/patterns
 producer/__pycache__/
-dir/mono_files/
+dir/mono
 dir/file

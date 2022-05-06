@@ -4,7 +4,7 @@ document.getElementById('file').onclick = e => {
 }
 
 function click_file(e) {
-    const obj = { data: [] };
+    const obj = { files: [] };
     document.getElementById('form').childNodes.forEach(currentValue => {
         if (currentValue.childNodes[0] instanceof HTMLLabelElement) {
             const el = currentValue.childNodes[1];
@@ -14,7 +14,7 @@ function click_file(e) {
                 obj.file_type = el.value;
             }
         } else {
-            obj.data.push(currentValue.childNodes[0].innerHTML);
+            obj.files.push(currentValue.childNodes[0].innerHTML);
         }
     });
 
@@ -61,7 +61,7 @@ function init_file() {
             for (let i = 0; i < res.length; i++) {
                 let el = document.createElement('button');
                 el.onclick = click;
-                el.innerHTML = res[i].name;
+                el.innerHTML = res[i];
                 menu.append(el);
             }
         });

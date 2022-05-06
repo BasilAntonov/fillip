@@ -23,9 +23,11 @@ def list_pattern():
 
 @app.route('/mono_get_list', methods=['GET'])
 def list_mono_file():
-    with open('./dir/monoFiles.json', 'r') as f:
-        res = json.load(f)
-    return jsonify(res)
+    path = os.getcwd()
+    os.chdir(r'dir/mono')
+    answer: list = os.listdir()
+    os.chdir(path)
+    return jsonify(answer)
 
 
 @app.route('/pattern_create', methods=['POST'])
@@ -33,27 +35,21 @@ def pattern_create():
     if not request.json:
         abort(400)
 
-    with open('./dir/patterns.json') as f:
-        obj: list = json.load(f)
-
-    flag = True
     pattern: dict = request.get_json()
-    gen.gen_pattern_name(pattern)
+    name: str = gen.gen_pattern_name(pattern) + '.wav'
 
-    for el in obj:
-        if (el == pattern):
-            flag = False
-            break
+    path = os.getcwd()
+    os.chdir(r'dir/patterns')
 
-    if flag:
-        with open('./dir/patterns.json', 'w') as f:
-            obj.append(pattern)
-            f.write(json.dumps(obj))
-        data_file = gen.gen_pattern(pattern)
-        write('./dir/patterns/' +
-              pattern['name'] + '.wav', gen.SAMPLERATE, data_file)
+    if name in os.listdir():
+        os.chdir(path)
+        return jsonify({'res': False, 'file_name': name})
 
-    return jsonify({'res': flag})
+    data_file = gen.gen_pattern(pattern)
+    write(name, gen.SAMPLERATE, data_file)
+
+    os.chdir(path)
+    return jsonify({'res': True, 'name': name})
 
 
 @app.route('/mono_create', methods=['POST'])
@@ -65,13 +61,11 @@ def mono_create():
     name: str = data['name'] + '.wav'
 
     path = os.getcwd()
-    os.chdir(r'dir/mono_files')
+    os.chdir(r'dir/mono')
 
-    content: list = os.listdir()
-    if name in content:
+    if name in os.listdir():
         os.chdir(path)
         return jsonify({'res': False, 'file_name': name})
-
 
     os.chdir(path)
     os.chdir(r'dir/patterns')
@@ -84,7 +78,7 @@ def mono_create():
 
     if data['save_type'] == 'mono':
         os.chdir(path)
-        os.chdir(r'dir/mono_files')
+        os.chdir(r'dir/mono')
 
     write(name, gen.SAMPLERATE, data_file)
     os.chdir(path)
@@ -97,21 +91,28 @@ def file_create():
         abort(400)
 
     data: dict = request.get_json()
-    files = []
-
-    for el in data['files']:
-        _, file_bin = read('./dir/mono_files/' + el + '.wav')
-        files.append(file_bin)
 
     path = os.getcwd()
     os.chdir(r'dir/file')
-    os.mkdir(data['folder'])
-    os.chdir(data['folder'])
+    if data['name'] in os.listdir():
+        os.chdir(path)
+        return jsonify({'res': False})
 
+    os.chdir(path)
+    os.chdir(r'dir/mono')
+    files = []
+    for el in data['files']:
+        _, file_bin = read(el)
+        files.append(file_bin)
+
+    os.chdir(path)
+    os.chdir(r'dir/file')
+    os.mkdir(data['name'])
+    os.chdir(data['name'])
+    
     files = gen.gen_file(files)
     for index, value in enumerate(files):
-        write('./' + data['folder'] + '_' +
-              str(index) + '.wav', gen.SAMPLERATE, value)
+        write(data['name'] + '_' + str(index) + '.wav', gen.SAMPLERATE, value)
 
     os.chdir(path)
     return jsonify({'res': True})

@@ -5,11 +5,11 @@ document.getElementById('pattern').onclick = e => {
 
 function click_pattern(e) {
     const obj = {
-        'time': document.getElementById('time').value,
-        'duty_cycle': document.getElementById('duty_cycle').value,
-        'number_pulses': document.getElementById('number_pulses').value,
-        'interval': document.getElementById('interval').value,
-        'number': document.getElementById('number').value
+        'time': document.getElementsByName('time')[0].value,
+        'duty_cycle': document.getElementsByName('duty_cycle')[0].value,
+        'number_pulses': document.getElementsByName('number_pulses')[0].value,
+        'interval': document.getElementsByName('interval')[0].value,
+        'number': document.getElementsByName('number')[0].value
     }
 
     fetch('http://127.0.0.1:5000/pattern_create', {

@@ -6,9 +6,7 @@ AMPLITUDE = np.iinfo(TYPE).max
 
 
 def gen_pattern_name(data):
-    data['name'] = str(data['time']) + 't' + str(data['duty_cycle']) + 'o' + str(
-        data['number_pulses']) + 'p' + str(data['interval']) + 'i' + str(data['number']) + 'n'
-    return
+    return str(data['time']) + 't' + str(data['duty_cycle']) + 'o' + str(data['number_pulses']) + 'p' + str(data['interval']) + 'i' + str(data['number']) + 'n'
 
 
 def gen_pattern(data):
