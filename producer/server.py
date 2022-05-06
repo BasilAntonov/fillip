@@ -43,7 +43,7 @@ def pattern_create():
 
     if name in os.listdir():
         os.chdir(path)
-        return jsonify({'res': False, 'file_name': name})
+        return jsonify({'res': False, 'name': name})
 
     data_file = gen.gen_pattern(pattern)
     write(name, gen.SAMPLERATE, data_file)
@@ -65,7 +65,7 @@ def mono_create():
 
     if name in os.listdir():
         os.chdir(path)
-        return jsonify({'res': False, 'file_name': name})
+        return jsonify({'res': False, 'name': name})
 
     os.chdir(path)
     os.chdir(r'dir/patterns')
@@ -96,7 +96,7 @@ def file_create():
     os.chdir(r'dir/file')
     if data['name'] in os.listdir():
         os.chdir(path)
-        return jsonify({'res': False})
+        return jsonify({'res': False, 'name': data['name']})
 
     os.chdir(path)
     os.chdir(r'dir/mono')
@@ -109,13 +109,13 @@ def file_create():
     os.chdir(r'dir/file')
     os.mkdir(data['name'])
     os.chdir(data['name'])
-    
-    files = gen.gen_file(files)
+
+    files = gen.gen_file(files, data['save_type'])
     for index, value in enumerate(files):
         write(data['name'] + '_' + str(index) + '.wav', gen.SAMPLERATE, value)
 
     os.chdir(path)
-    return jsonify({'res': True})
+    return jsonify({'res': True, 'name': data['name']})
 
 
 if __name__ == '__main__':

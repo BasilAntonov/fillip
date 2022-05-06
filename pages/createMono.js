@@ -24,19 +24,23 @@ function click_mono(e) {
             'Content-Type': 'application/json;charset=utf-8'
         },
         body: JSON.stringify(obj)
+    }).then(res => {
+        if (res.ok) {
+            return res.json();
+        } else {
+            const str = 'Error! response status: ' + res.status;
+            alert(str);
+            throw str;
+        }
+    }).then(res => {
+        if (res.res) {
+            if (res.type == 'mono') { alert(`Моно файл создан! Название файла: ${res.name}`); }
+            else { alert(`Паттерн создан! Название файла: ${res.name}`); }
+        } else {
+            if (res.type == 'mono') { alert(`Моно файл с таким названием существует. Название файла: ${res.name}`); }
+            else { alert(`Паттерн с таким названием существует. Название файла: ${res.name}`); }
+        }
     })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                const str = 'Error! response status: ' + res.status;
-                alert(str);
-                throw str;
-            }
-        })
-        .then(res => {
-            alert('Моно файл создан!');
-        })
 };
 
 function init_mono() {
@@ -47,24 +51,22 @@ function init_mono() {
 
     const menu = document.createElement('article');
     menu.id = 'menu';
-    fetch('http://127.0.0.1:5000/pattern_get_list')
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                const str = 'Error! response status: ' + res.status;
-                alert(str);
-                throw str;
-            }
-        })
-        .then(res => {
-            for (let i = 0; i < res.length; i++) {
-                let el = document.createElement('button');
-                el.onclick = click;
-                el.innerHTML = res[i];
-                menu.append(el);
-            }
-        });
+    fetch('http://127.0.0.1:5000/pattern_get_list').then(res => {
+        if (res.ok) {
+            return res.json();
+        } else {
+            const str = 'Error! response status: ' + res.status;
+            alert(str);
+            throw str;
+        }
+    }).then(res => {
+        for (let i = 0; i < res.length; i++) {
+            let el = document.createElement('button');
+            el.onclick = click;
+            el.innerHTML = res[i];
+            menu.append(el);
+        }
+    });
 
     const form = document.createElement('article');
     form.id = 'form';

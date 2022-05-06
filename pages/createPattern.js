@@ -18,19 +18,18 @@ function click_pattern(e) {
             'Content-Type': 'application/json;charset=utf-8'
         },
         body: JSON.stringify(obj)
+    }).then(res => {
+        if (res.ok) {
+            return res.json();
+        } else {
+            const str = 'Error! response status: ' + res.status;
+            alert(str);
+            throw str;
+        }
+    }).then(res => {
+        if (res.res) { alert(`Паттерн создан! Название файла: ${res.name}`); }
+        else { alert(`Паттерн с такими параметрами существует. Название файла: ${res.name}`); }
     })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                const str = 'Error! response status: ' + res.status;
-                alert(str);
-                throw str;
-            }
-        })
-        .then(res => {
-            alert('Паттерн создан!');
-        })
 };
 
 document.getElementById('pattern').onclick = (e) => {

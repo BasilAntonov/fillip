@@ -11,7 +11,7 @@ function click_file(e) {
             if (el.type == 'text') {
                 obj.name = el.value;
             } else if (el.type == 'radio' && el.checked) {
-                obj.file_type = el.value;
+                obj.save_type = el.value;
             }
         } else {
             obj.files.push(currentValue.childNodes[0].innerHTML);
@@ -24,19 +24,18 @@ function click_file(e) {
             'Content-Type': 'application/json;charset=utf-8'
         },
         body: JSON.stringify(obj)
+    }).then(res => {
+        if (res.ok) {
+            return res.json();
+        } else {
+            const str = 'Error! response status: ' + res.status;
+            alert(str);
+            throw str;
+        }
+    }).then(res => {
+        if (res.res) { alert(`Папка с упокованными файлами создан! Название папки: ${res.name}`); }
+        else { alert(`Папка с такими названием существует. Название папки: ${res.name}`); }
     })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                const str = 'Error! response status: ' + res.status;
-                alert(str);
-                throw str;
-            }
-        })
-        .then(res => {
-            alert('Файл создан!');
-        })
 };
 
 function init_file() {
@@ -47,24 +46,22 @@ function init_file() {
 
     const menu = document.createElement('article');
     menu.id = 'menu';
-    fetch('http://127.0.0.1:5000/mono_get_list')
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            } else {
-                const str = 'Error! response status: ' + res.status;
-                alert(str);
-                throw str;
-            }
-        })
-        .then(res => {
-            for (let i = 0; i < res.length; i++) {
-                let el = document.createElement('button');
-                el.onclick = click;
-                el.innerHTML = res[i];
-                menu.append(el);
-            }
-        });
+    fetch('http://127.0.0.1:5000/mono_get_list').then(res => {
+        if (res.ok) {
+            return res.json();
+        } else {
+            const str = 'Error! response status: ' + res.status;
+            alert(str);
+            throw str;
+        }
+    }).then(res => {
+        for (let i = 0; i < res.length; i++) {
+            let el = document.createElement('button');
+            el.onclick = click;
+            el.innerHTML = res[i];
+            menu.append(el);
+        }
+    });
 
     const form = document.createElement('article');
     form.id = 'form';
