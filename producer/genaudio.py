@@ -16,14 +16,16 @@ def gen_pattern(data):
     pulse = SAMPLERATE * float(data['time'])
     t1 = np.full(int(pulse * omega), AMPLITUDE, dtype=TYPE)
     interval = np.full(int(pulse * (1 - omega)), 0, dtype=TYPE)
+
     t = np.concatenate((t1, interval))
+    pack = t
+    for i in range(int(data['number_pulses'])-1):
+        pack = np.concatenate((pack, t))
 
-    for i in range(int(data['number_pulses'])):
-        t = np.concatenate((t, t))
-
-    answer = np.concatenate((t, tau))
-    for i in range(int(data['number'])):
-        answer = np.concatenate((answer, answer))
+    pack = np.concatenate((pack, tau))
+    answer = pack
+    for i in range(int(data['number'])-1):
+        answer = np.concatenate((answer, pack))
 
     return answer
 
@@ -47,19 +49,20 @@ def gen_file(files: list, _type: str):
             else:
                 right = right[0:size]
         else:
-            pass #TODO
-            # size = max(left.size, right.size)
-            # if (left.size != size):
-            #     left = np.concatenate(left, left[0:int(size-left.size)])
-            # else:
-            #     right = np.concatenate(right, right[0:int(size-right.size)])
+            size = max(left.size, right.size)
+            if (left.size != size):
+                count = size - left.size
+                left = np.concatenate((left, left[0:count]))
+            else:
+                count = size - right.size
+                right = np.concatenate((right, right[0:count]))
 
-        data = np.hstack((left, right))
+        data = np.column_stack((left, right))
         answer.append(data)
 
     if len(files) % 2 == 1:
         empty = np.full(files[-1].size, 0, dtype=TYPE)
-        data = np.hstack((files[-1], empty))
+        data = np.column_stack((files[-1], empty))
         answer.append(data)
 
     return answer

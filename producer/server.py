@@ -36,7 +36,11 @@ def pattern_create():
         abort(400)
 
     pattern: dict = request.get_json()
-    name: str = gen.gen_pattern_name(pattern) + '.wav'
+
+    if not pettern.get('name'):
+        name = gen.gen_pattern_name(pattern) + '.wav'
+    else:
+        name = pattern['name'] + '.wav'
 
     path = os.getcwd()
     os.chdir(r'dir/patterns')
