@@ -18,7 +18,7 @@ function click_mono(e) {
     }
 
     if (!obj.save_type) { alert('Выберите тип сохранения файла!'); return; }
-    if (obj.patterns.length < 2) { alert ('Выберите хотя бы два патерна для генерации нового файла!'); return;}
+    if (obj.patterns.length < 2) { alert('Выберите хотя бы два патерна для генерации нового файла!'); return; }
 
     fetch('http://127.0.0.1:5000/mono_create', {
         method: 'POST',
@@ -44,31 +44,23 @@ function click_mono(e) {
 };
 
 function init_mono() {
-    const button = document.createElement('button');
-    button.innerHTML = 'Отправить';
-    button.onclick = click_mono;
-    bottom.appendChild(button);
+    bottom.appendChild(_create_button('Отправить', click_mono));
 
     const menu = document.createElement('article');
     menu.id = 'menu';
+    menu.className = 'column'
     fetch('http://127.0.0.1:5000/pattern_get_list').then(res => {
         if (res.ok) { return res.json(); }
         else {
             const str = 'Error! response status: ' + res.status;
             alert(str);
-            throw str;
+            throw Error(str);
         }
-    }).then(res => {
-        for (let i = 0; i < res.length; i++) {
-            let el = document.createElement('button');
-            el.onclick = click;
-            el.innerHTML = res[i];
-            menu.append(el);
-        }
-    });
+    }).then(res => { res.forEach(el => menu.append(create_el(el))) });
 
     const form = document.createElement('article');
     form.id = 'form';
+    form.className = 'column';
     form.append(
         create_input('name', 'Имя файла'),
         create_input_radio('save_type', 'Сохранить как новый паттерн', 'pattern'),

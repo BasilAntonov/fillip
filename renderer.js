@@ -1,18 +1,33 @@
 const main = document.getElementById('main');
 const bottom = document.getElementById('bottom');
 
-function click(e) {
-    const button = document.createElement('button');
-    button.onclick = clickDel;
-    button.innerHTML = 'del';
+function click_open(e) {
+    const el = e.target.childNodes[0].innerHTML;
+}
 
+function _create_el(name, buttons) {
     const data = document.createElement('div');
-    data.innerHTML = e.target.innerHTML;
+    data.innerHTML = name;
 
     const el = document.createElement('div');
-    el.append(data);
-    el.append(button);
+    el.appendChild(data);
 
+    buttons.forEach(button => { el.appendChild(_create_button(button.name, button.fun)); });
+    return el;
+}
+
+function create_el(name) { return _create_el(name, [{ name: 'save', fun: click_open }, { name: 'add', fun: click }]) }
+
+function _create_button(name, fun) {
+    const button = document.createElement('button');
+    button.onclick = fun;
+    button.innerHTML = name;
+    return button;
+}
+
+function click(e) {
+    const data = e.target.parentNode.childNodes[0].innerHTML;
+    const el = _create_el(data, [{ name: 'del', fun: clickDel }]);
     document.getElementById('form').append(el);
 }
 

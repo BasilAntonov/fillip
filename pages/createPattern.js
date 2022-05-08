@@ -59,13 +59,11 @@ document.getElementById('pattern').onclick = (e) => {
 }
 
 function init_pattern() {
-    const button = document.createElement('button');
-    button.innerHTML = 'Отправить';
-    button.onclick = click_pattern;
-    bottom.appendChild(button);
+    bottom.appendChild(_create_button('Отправить', click_pattern));
 
     const form = document.createElement('article');
-    form.id = 'form'
+    form.id = 'form';
+    form.className = 'column';
     form.append(
         create_input('name', 'Имя файла'),
         create_input('time', 'Частота следования импульсов (Период)', 'number'),

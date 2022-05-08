@@ -38,31 +38,23 @@ function click_file(e) {
 };
 
 function init_file() {
-    const button = document.createElement('button');
-    button.innerHTML = 'Отправить';
-    button.onclick = click_file;
-    bottom.appendChild(button);
+    bottom.appendChild(_create_button('Отправить', click_file));
 
     const menu = document.createElement('article');
     menu.id = 'menu';
+    menu.className = 'column';
     fetch('http://127.0.0.1:5000/mono_get_list').then(res => {
         if (res.ok) { return res.json(); }
         else {
             const str = 'Error! response status: ' + res.status;
             alert(str);
-            throw str;
+            throw Error(str);
         }
-    }).then(res => {
-        for (let i = 0; i < res.length; i++) {
-            let el = document.createElement('button');
-            el.onclick = click;
-            el.innerHTML = res[i];
-            menu.append(el);
-        }
-    });
+    }).then(res => { res.forEach(el => menu.append(create_el(el))) });
 
     const form = document.createElement('article');
     form.id = 'form';
+    form.className = 'column';
     form.append(
         create_input('name', 'Имя папки'),
         create_input_radio('save_type', 'При сохранение меньший файл расширять до большего', 'repeat'),

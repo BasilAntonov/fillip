@@ -34,45 +34,34 @@ button:hover {
     margin: 2px;
 }
 
-#menu {
+.column>div {
+    display: flex;
+    width: 90%;
+}
+
+.column>div>div {
+    flex: 1;
+}
+
+.column>div>button {
+    align-self: flex-end;
+}
+
+.column>div>label {
+    flex: 1;
+}
+
+.column>div>input {
+    align-self: flex-end;
+}
+
+.column {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-#menu>button {
-    margin: 2px;
-    width: 90%;
-}
-
-#form>div {
-    display: flex;
-    width: 90%;
-}
-
-#form>div>div {
-    flex: 1;
-}
-
-#form>div>button {
-    align-self: flex-end;
-}
-
-#form>div>label {
-    flex: 1;
-}
-
-#form>div>input {
-    align-self: flex-end;
-}
-
-#form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#form>input {
+.column>input {
     margin: 2px;
 }
 
