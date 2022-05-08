@@ -1,7 +1,7 @@
 import os
 import json
 import genaudio as gen
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, abort
 from scipy.io.wavfile import write, read
 
 app = Flask(__name__)
@@ -10,6 +10,35 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     return ""
+
+
+@app.route('/open_file', methods=['GET'])
+def open_pattern():
+    args = request.args
+    path = os.getcwd()
+    os.chdir(r'dir')
+
+    folder = args.get('type')
+    if (folder == None):
+        abort(400)
+    elif (folder != 'file'):
+        os.chdir(folder)
+    else:
+        archive = args.get('folder')
+        if (archive == None):
+            abort(400)
+        else:
+            os.chdir(folder)
+            os.chdir(archive)
+
+    name = args.get('name')
+    if (name == None):
+        abort(400)
+    else:
+        os.system(name)
+
+    os.chdir(path)
+    return jsonify({'res': True})
 
 
 @app.route('/pattern_get_list', methods=['GET'])
