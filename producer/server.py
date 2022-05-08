@@ -37,7 +37,7 @@ def pattern_create():
 
     pattern: dict = request.get_json()
 
-    if not pettern.get('name'):
+    if pattern.get('name', True):
         name = gen.gen_pattern_name(pattern) + '.wav'
     else:
         name = pattern['name'] + '.wav'

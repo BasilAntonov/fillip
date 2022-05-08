@@ -21,12 +21,8 @@ function clickDel(e) {
 }
 
 function pages_clear() {
-    while (main.firstChild) {
-        main.removeChild(main.firstChild);
-    }
-    while (bottom.firstChild) {
-        bottom.removeChild(bottom.firstChild);
-    }
+    while (main.firstChild) { main.removeChild(main.firstChild); }
+    while (bottom.firstChild) { bottom.removeChild(bottom.firstChild); }
 }
 
 function create_input(name, text, type) {
