@@ -41,6 +41,22 @@ def open_pattern():
     return jsonify({'res': True})
 
 
+@app.route('/file_get_list', methods=['GET'])
+def list_file():
+    path = os.getcwd()
+    os.chdir(r'dir/file')
+    
+    folders: list() = os.listdir()
+    answer = {}
+    for el in folders:
+        os.chdir(el)
+        answer[el] = os.listdir()
+        os.chdir(r'..')
+
+    os.chdir(path)
+    return jsonify(answer)
+
+
 @app.route('/pattern_get_list', methods=['GET'])
 def list_pattern():
     path = os.getcwd()
