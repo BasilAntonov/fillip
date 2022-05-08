@@ -2,7 +2,17 @@ const main = document.getElementById('main');
 const bottom = document.getElementById('bottom');
 
 function click_open(e) {
-    const el = e.target.childNodes[0].innerHTML;
+    const name = e.target.parentNode.childNodes[0].innerHTML;
+    const type = e.target.parentNode.parentNode.id;
+
+    fetch(`http://127.0.0.1:5000/open_file?type=${type}&name=${name}`).then(res => {
+        if (res.ok) { return res.json(); }
+        else {
+            const str = 'Error! response status: ' + res.status;
+            alert(str);
+            throw Error(str);
+        }
+    }).then(res => { });
 }
 
 function _create_el(name, buttons) {
@@ -16,7 +26,7 @@ function _create_el(name, buttons) {
     return el;
 }
 
-function create_el(name) { return _create_el(name, [{ name: 'save', fun: click_open }, { name: 'add', fun: click }]) }
+function create_el(name) { return _create_el(name, [{ name: 'open', fun: click_open }, { name: 'add', fun: click }]) }
 
 function _create_button(name, fun) {
     const button = document.createElement('button');

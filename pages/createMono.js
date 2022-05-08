@@ -47,7 +47,7 @@ function init_mono() {
     bottom.appendChild(_create_button('Отправить', click_mono));
 
     const menu = document.createElement('article');
-    menu.id = 'menu';
+    menu.id = 'patterns';
     menu.className = 'column'
     fetch('http://127.0.0.1:5000/pattern_get_list').then(res => {
         if (res.ok) { return res.json(); }
@@ -56,7 +56,7 @@ function init_mono() {
             alert(str);
             throw Error(str);
         }
-    }).then(res => { res.forEach(el => menu.append(create_el(el))) });
+    }).then(res => res.forEach(el => menu.append(create_el(el))));
 
     const form = document.createElement('article');
     form.id = 'form';

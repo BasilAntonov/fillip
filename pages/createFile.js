@@ -41,7 +41,7 @@ function init_file() {
     bottom.appendChild(_create_button('Отправить', click_file));
 
     const menu = document.createElement('article');
-    menu.id = 'menu';
+    menu.id = 'mono';
     menu.className = 'column';
     fetch('http://127.0.0.1:5000/mono_get_list').then(res => {
         if (res.ok) { return res.json(); }
@@ -50,7 +50,7 @@ function init_file() {
             alert(str);
             throw Error(str);
         }
-    }).then(res => { res.forEach(el => menu.append(create_el(el))) });
+    }).then(res => res.forEach(el => menu.append(create_el(el))));
 
     const form = document.createElement('article');
     form.id = 'form';
