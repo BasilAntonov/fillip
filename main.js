@@ -1,7 +1,7 @@
 const { app, BrowserWindow } = require('electron');
-const { PythonShell } = require('python-shell');
+const { spawn } = require('node:child_process');
 
-const server = new PythonShell('./producer/server.py', { mode: 'text' });
+const server = spawn('python', ['./producer/server.py']);
 
 function createWindow() {
     const win = new BrowserWindow({
@@ -13,12 +13,13 @@ function createWindow() {
         }
     });
     win.loadFile('index.html');
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
 }
 
 app.whenReady().then(createWindow);
 
 app.on('window-all-closed', () => {
+    server.kill('SIGKILL');
     if (process.platform !== 'darwin') {
         app.quit();
     }
