@@ -1,4 +1,5 @@
 document.getElementById('dir').onclick = e => {
+    if (page == 'dir') { return; }
     pages_clear();
     init_dir();
 }
@@ -17,6 +18,7 @@ function open_file(e) {
 }
 
 function init_dir() {
+    page = 'dir';
     const menu = document.createElement('article');
     menu.id = 'menu';
     menu.className = 'column';
@@ -37,7 +39,7 @@ function init_dir() {
             folder.className = 'dir'
             folder.appendChild(header);
             res[el].forEach(file => {
-                const _file = _create_el(file, [{name: 'open', fun: open_file}])
+                const _file = _create_el(file, [{ name: 'open', fun: open_file }])
                 _file.className = 'dir_file'
                 folder.appendChild(_file)
             });

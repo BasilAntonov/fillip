@@ -1,4 +1,5 @@
 document.getElementById('pattern').onclick = e => {
+    if (page == 'pattern') { return; }
     pages_clear();
     init_pattern();
 }
@@ -59,6 +60,7 @@ document.getElementById('pattern').onclick = (e) => {
 }
 
 function init_pattern() {
+    page = 'pattern';
     bottom.appendChild(_create_button('Отправить', click_pattern));
 
     const form = document.createElement('article');

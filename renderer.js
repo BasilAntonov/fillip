@@ -1,6 +1,8 @@
 const main = document.getElementById('main');
 const bottom = document.getElementById('bottom');
 
+let page;
+
 function click_open(e) {
     const name = e.target.parentNode.childNodes[0].innerHTML;
     const type = e.target.parentNode.parentNode.id;

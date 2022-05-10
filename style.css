@@ -1,7 +1,11 @@
+html {
+    height: 100%;
+}
+
 body {
     display: flex;
     flex-direction: column;
-    height: 95vh;
+    height: 96%;
 }
 
 section {
@@ -15,6 +19,8 @@ article {
 
 footer {
     align-self: flex-end;
+    flex: 0;
+    margin-top: 8px;
 }
 
 nav {

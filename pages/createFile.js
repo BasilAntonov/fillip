@@ -1,4 +1,5 @@
 document.getElementById('file').onclick = e => {
+    if (page == 'file') { return; }
     pages_clear();
     init_file();
 }
@@ -38,6 +39,7 @@ function click_file(e) {
 };
 
 function init_file() {
+    page = 'file';
     bottom.appendChild(_create_button('Отправить', click_file));
 
     const menu = document.createElement('article');

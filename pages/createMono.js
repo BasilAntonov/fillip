@@ -1,4 +1,5 @@
 document.getElementById('mono').onclick = e => {
+    if (page == 'mono') { return; }
     pages_clear();
     init_mono();
 }
@@ -44,6 +45,7 @@ function click_mono(e) {
 };
 
 function init_mono() {
+    page = 'mono';
     bottom.appendChild(_create_button('Отправить', click_mono));
 
     const menu = document.createElement('article');
