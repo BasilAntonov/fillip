@@ -8,7 +8,7 @@ function click_file(e) {
     const obj = { files: [] };
     const form = document.getElementById('form').childNodes;
     for (let i = 0; i < form.length; i++) {
-        const field = form.childNodes;
+        const field = form[i].childNodes;
         if (field[0] instanceof HTMLLabelElement) {
             const el = field[1];
             if (el.type == 'text') {

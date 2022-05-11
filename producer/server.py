@@ -35,7 +35,8 @@ def open_pattern():
     if (name == None):
         abort(400)
     else:
-        os.system(name)
+        if (os.system('open ' + name) == 1):
+            os.system(name)
 
     os.chdir(path)
     return jsonify({'res': True})
@@ -49,6 +50,8 @@ def list_file():
     folders: list() = os.listdir()
     answer = {}
     for el in folders:
+        if (el == '.DS_Store'):
+            continue
         os.chdir(el)
         answer[el] = os.listdir()
         os.chdir(r'..')
